@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RANDOMIZR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col col-md-2"></div>
+        <div class="col col-md-6">
+            <center>
+                <h1>#RNDMZR</h1>
+            </center>
+        </div>
+        <div class="col col-md-2"></div>
+    </div>
+    <hr>
+    <h4>Todos los Hashtags</h4>
+    <textarea class="form-control" id="Origin_" placeholder="Anota los hashtags separados por espacio"
+        rows="10"></textarea>
+    <h4>Hastags de ayer para omitir</h4>
+    <textarea class="form-control" id="Avoid_" placeholder="Anota los hashtags separados por espacio"
+        rows="10"></textarea>
+    <h4>Cantidad de hashtags a extraer</h4>
+    <input class="form-control" id="Cant_" type="number" placeholder="Default 5 ">
+    <hr>
+    <button id="_sAction" class="btn btn-primary btn-block"> Procesar</button>
+    <hr>
+    <h4>Respuesta</h4>
+    <textarea class="form-control" id="Response_" placeholder="Aqui se mostaran los hashtags de hoy"
+        rows="10"></textarea>
+
+
+</div>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#_sAction').click(function () {
+                var ori = $('#Origin_').val().split(' ');
+                var avoi = $('#Avoid_').val().split(' ');
+                ori = cleanStr(ori);
+                avoi = cleanStr(avoi);
+
+                var totalOri = ori.length;
+                var TotalAvoi = avoi.length;
+
+                var CantA = Number($('#Cant_').val())
+                var RESPP = [];
+                var valS = '';
+
+                if (CantA == 0 || CantA == '') {
+                    CantA = 5;
+                }
+
+                for (var i = 0; i < CantA; i++) {
+                    var pass = false;
+                    var ri = false;
+                    do {
+                        var rndm = Math.floor(Math.random() * totalOri) + 1
+                        valS = ori[rndm];
+                        pass = avoi.includes(valS);
+                        ri = RESPP.includes(valS);
+                    }
+                    while (pass || ri);
+                    RESPP.push(valS);
+
+                }
+
+                var ori = $('#Response_').val(RESPP.join(' '))
+
+            });
+
+            function cleanStr(arr) {
+                for (var i = 0; i < arr.length; i++) {
+                    arr[i] = arr[i].trim()
+                }
+                return arr;
+            }
+
+
+        })
+
+    </script>
+
+</body>
+
+</html>
